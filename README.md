@@ -55,8 +55,8 @@ El sistema cuenta con 4 vistas principales:
 ## Clases/Negocio
 <br>
 <li><strong>ApiService</strong> :Interfaz Gestiona la consulta a la RestApi por paremitrazacion de Retrofit y serializa en los modelos.</li>
-<li><strong>LoadMediaType</strong> :Funcion que solicita el consumo de api. de acuerdo a los parametros de entraras tales como (typeApi:String,reciclerView: RecyclerView,context: Context)</li>
-<li><strong>SearchMultiple</strong> : Funcion solicita el consumo de api de search multpiple es activadad por addTextChangedListener del EditText.Recibe como parametros(Reciclerview,ListArray<mMovie>,context).</li>
+<li><strong>LoadMediaType</strong> :Funcion que solicita el consumo de api. de acuerdo a los parametros de entradas tales como (typeApi:String,reciclerView: RecyclerView,context: Context)</li>
+<li><strong>SearchMultiple</strong> : Funcion solicita el consumo de api de search multpiple es activadad por addTextChangedListener del EditText.Recibe como parametros(String,Reciclerview,context).</li>
 <li><strong>Adapter(Movie,TvSeties,Search)</strong> : Adaptadores que Gestiona la visualizaicion de datos en reciclerview.</li>
 
 ## Capa Persistencia
