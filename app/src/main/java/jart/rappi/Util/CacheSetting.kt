@@ -18,7 +18,7 @@ class CacheSetting {
 
         fun getSetting(context:Context): OkHttpClient {
 
-            val cacheSize = 10 * 1024 * 1024 // 10 MB
+            val cacheSize =Api.cache_size
             val httpCacheDirectory = File(context.cacheDir, "http-cache")
             val cache = okhttp3.Cache(httpCacheDirectory, cacheSize.toLong())
 
@@ -27,7 +27,7 @@ class CacheSetting {
                 val response = chain.proceed(chain.request())
 
                 var cacheControl = CacheControl.Builder()
-                        .maxAge(20, TimeUnit.MINUTES)
+                        .maxAge(Api.time_cache_min, TimeUnit.MINUTES)
                         .build()
 
                 response.newBuilder()

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.bumptech.glide.GenericTransitionOptions
 import com.bumptech.glide.Glide
 import jart.rappi.Fragment.SingleFragment
 import jart.rappi.Model.mMovie
@@ -50,6 +51,7 @@ class SearchAdapter(val subCategoryList: ArrayList<mMovie>): RecyclerView.Adapte
 
             Glide.with(itemView)
                     .load(urlPhoto)
+                    .transition(GenericTransitionOptions.with(R.anim.zoom_in))
                     .into(posterMovie)
 
 

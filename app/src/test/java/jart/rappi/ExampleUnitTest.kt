@@ -1,5 +1,6 @@
 package jart.rappi
 
+import jart.rappi.Fragment.CategoryFragment
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -11,7 +12,10 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
+    fun add_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+
+
 }

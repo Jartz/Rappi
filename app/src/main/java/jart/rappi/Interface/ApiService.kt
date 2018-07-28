@@ -22,7 +22,7 @@ interface ApiService {
     =================================
    */
     @GET("{typeApi}/{typeCategoryApi}")
-    fun getAllPosts(@Path("typeApi") typeApi: String,
+    fun getAllMovie(@Path("typeApi") typeApi: String,
                     @Path("typeCategoryApi") typeCategoryApi: String,
                     @Query("api_key") api_key: String,
                     @Query("language") language: String,
@@ -47,20 +47,29 @@ interface ApiService {
       =================================
     */
 
-    @GET("{type}/{keyVideo}/videos?api_key=13115ee8951044bf35230ce959846751&language=en-US")
-    fun getVideo(@Path("keyVideo") keyVideo: Int,@Path("type") type: String):Observable<Response<mVideoCAteogry>>
+    @GET("{type}/{keyVideo}/videos")
+    fun getVideo(@Path("keyVideo") keyVideo: Int,
+                 @Path("type") type: String,
+                 @Query("api_key") api_key: String,
+                 @Query("language")language: String):Observable<Response<mVideoCAteogry>>
 
     /*
      =================================
-     API SERVICE CATEGO
+     API SERVICE CATEGORY
      =================================
    */
 
-    @GET("{type}/{category}?api_key=13115ee8951044bf35230ce959846751&language=en-US")
-    fun getCategorys(@Path("type") type: String,@Path("category") category: String):Observable<Response<mMoviesCategory>>
+    @GET("{type}/{category}")
+    fun getCategorysMovie(@Path("type") type: String,
+                          @Path("category") category: String,
+                          @Query("api_key") api_key: String,
+                          @Query("language") language: String):Observable<Response<mMoviesCategory>>
 
-    @GET("{type}/{category}?api_key=13115ee8951044bf35230ce959846751&language=en-US")
-    fun getCategorysTV(@Path("type") type: String,@Path("category") category: String):Observable<Response<mTvSeriesCategory>>
+    @GET("{type}/{category}")
+    fun getCategorysTV(@Path("type") type: String,
+                       @Path("category") category: String,
+                       @Query("api_key") api_key: String,
+                       @Query("language") language: String):Observable<Response<mTvSeriesCategory>>
 
 
     /*

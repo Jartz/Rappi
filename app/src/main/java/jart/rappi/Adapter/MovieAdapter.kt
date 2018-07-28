@@ -18,7 +18,7 @@ import jart.rappi.Fragment.SingleFragment
 import jart.rappi.Model.mMovie
 import jart.rappi.R
 import android.support.v7.app.AppCompatActivity
-
+import com.bumptech.glide.GenericTransitionOptions
 
 
 /**
@@ -59,6 +59,7 @@ class MovieAdapter(val subCategoryList: ArrayList<mMovie>): RecyclerView.Adapter
 
             Glide.with(itemView)
                     .load(urlPhoto)
+                    .transition(GenericTransitionOptions.with(R.anim.zoom_in))
                     .into(posterMovie)
 
 

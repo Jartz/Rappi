@@ -11,11 +11,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.google.android.youtube.player.*
 
 import jart.rappi.R
 
-import android.widget.Toast
 import android.util.Log
 
 import com.google.android.youtube.player.YouTubeInitializationResult
@@ -29,9 +27,7 @@ import jart.rappi.Interface.ApiService
 
 import jart.rappi.Model.mVideoCAteogry
 import jart.rappi.Util.Api
-import jart.rappi.Util.CacheSetting
 
-import org.json.JSONException
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -90,7 +86,7 @@ class SingleFragment : Fragment()  {
         tvAge.text = age
         tvDescription.text = description
 
-        val urlPhoto = "http://image.tmdb.org/t/p/w185${urlPoster}"
+        val urlPhoto = Api.BaseApi_poster+urlPoster
 
 
         Glide.with(this)
@@ -104,53 +100,29 @@ class SingleFragment : Fragment()  {
 
     fun getKeyVideoYoutube() {
 
-        var httpClient = CacheSetting.getSetting(context)
-
         val retrofit = Retrofit.Builder()
-                .baseUrl(Api.BaseApi)
+                .baseUrl(Api.base_api)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(httpClient)
                 .build()
 
         val apiService = retrofit.create(ApiService::class.java)
-        apiService.getVideo(idKey,typeKey)
+        apiService.getVideo(idKey,typeKey,Api.api_key,Api.language)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableObserver<Response<mVideoCAteogry>>() {
                     override fun onNext(response: Response<mVideoCAteogry>) {
 
-
-
-                        if (response.raw().cacheResponse() != null) {
-                            Log.d("Network", "response came from cache")
-                        }
-
-                        if (response.raw().networkResponse() != null) {
-                            Log.i(ContentValues.TAG, "response came from server")
-                        }
-
-                        Log.i(ContentValues.TAG,"------>>"+response.body()!!.results.toString());
-                        val videos = response.body()!!.results
+                         val videos = response.body()!!.results
                         Log.i(ContentValues.TAG,""+videos.size)
 
                         for (i in 0 until videos.size) {
-
-                            try{
                                 Log.i(ContentValues.TAG,""+videos.get(i).key)
                                 VideoKeyYoutube = videos.get(i).key
                                 Log.i("Video","---------->"+VideoKeyYoutube)
 
-
-                            }
-                            catch (e: JSONException) {
-                                e.printStackTrace();
-                            }
-
                         }
-
                         displayYoutube(VideoKeyYoutube)
-
                     }
 
                     override fun onComplete() {
@@ -177,7 +149,7 @@ class SingleFragment : Fragment()  {
 
             override fun onInitializationSuccess(provider: YouTubePlayer.Provider, player: YouTubePlayer, wasRestored: Boolean) {
                 if (!wasRestored) {
-                    player.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT)
+                    player.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL)
                     player.loadVideo(KeyYoutube.trim())
                     player.play()
                 }
@@ -185,8 +157,7 @@ class SingleFragment : Fragment()  {
 
             override fun onInitializationFailure(provider: YouTubePlayer.Provider, error: YouTubeInitializationResult) {
                 val errorMessage = error.toString()
-                Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
-                Log.d("errorMessage:", errorMessage)
+                Log.e("errorMessage:", errorMessage)
             }
         })
 

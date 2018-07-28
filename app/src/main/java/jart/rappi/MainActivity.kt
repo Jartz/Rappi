@@ -1,12 +1,20 @@
 package jart.rappi
 
 
+import android.app.Activity
+import android.content.Context
+import android.content.pm.ActivityInfo
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.design.widget.BottomNavigationView
+import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
+import android.util.Log
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import jart.rappi.Fragment.CategoryFragment
 import jart.rappi.Fragment.HomeFragment
 import jart.rappi.Fragment.SearchFragment
@@ -23,13 +31,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         NavBar = findViewById<ConstraintLayout>(R.id.navBar)
         HomeShowFragment()
 
         navigationMenu.setOnNavigationItemSelectedListener(onNavigation)
         BottomNavigationViewHelper.removeShiftMode(navigationMenu)
-
-
 
     }
 
@@ -42,6 +50,8 @@ class MainActivity : AppCompatActivity() {
         transaction.replace(R.id.fragmentHolder, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
+
+
 
     }
 
@@ -112,6 +122,20 @@ class MainActivity : AppCompatActivity() {
         }
         false
     }
+
+
+
+
+    override fun onBackPressed() {
+       // val parentLayout = findViewById<View>(android.R.id.content)
+        //Snackbar.make(parentLayout, "Usa el menu de Navegación ", Snackbar.LENGTH_SHORT).show()
+
+    }
+
+
+
+
+
 
 }
 
