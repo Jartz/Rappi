@@ -65,7 +65,8 @@ El sistema cuenta con 4 vistas principales:
 <br>
 RTA:/ Consiten en que objeto solo debe realizar una única cosa. y su proposito es proteger nuestro código frente a cambios
 <br>
-2. Qué características tiene, según su opinión, un “buen” código o código limpio? 
+<strong>2. Qué características tiene, según su opinión, un “buen” código o código limpio? </strong>
+<br>
 Un buen codigo o codigo limpio, es un codigo que cualquier programador puede entender sin necesidad de preguntar al que lo desarrollo.
 
 
