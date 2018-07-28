@@ -37,8 +37,6 @@ class TvSeriesAdapter(val subCategoryList: ArrayList<mTvSeries>): RecyclerView.A
 
         fun bindItems(subcategory: mTvSeries) {
 
-            //!!!!val containerCv = itemView.findViewById<ConstraintLayout>(R.id.containerCv)
-            //val nameMovie = itemView.findViewById<TextView>(R.id.titleMovie)
             val posterMovie = itemView.findViewById<ImageView>(R.id.posterMovie)
             val idMovie = subcategory.id
 
@@ -58,8 +56,13 @@ class TvSeriesAdapter(val subCategoryList: ArrayList<mTvSeries>): RecyclerView.A
                 val mArgs = Bundle()
 
                 mArgs.putInt("Key", idMovie)
-                //mArgs.putParcelable("product", subcategory)
-                mArgs.putString("TypeKey", "TvSeries")
+                mArgs.putString("TypeKey", "tv")
+                mArgs.putString("title", subcategory.original_name)
+                mArgs.putString("urlPoster", subcategory.poster_path)
+                mArgs.putString("age", subcategory.first_air_date)
+                mArgs.putString("description", subcategory.overview)
+
+
 
                 mFragment.setArguments(mArgs)
 

@@ -26,6 +26,8 @@ import jart.rappi.Model.mTvSeries
 import jart.rappi.Model.mTvSeriesCategory
 
 import jart.rappi.R
+import jart.rappi.Util.Api
+import jart.rappi.Util.CacheSetting
 import kotlinx.android.synthetic.main.fragment_home.*
 import okhttp3.Cache
 import okhttp3.CacheControl
@@ -41,14 +43,7 @@ import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [HomeFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class HomeFragment : Fragment() {
 
     lateinit var cContext: Context
@@ -84,7 +79,6 @@ class HomeFragment : Fragment() {
         loadMovie(rvMovies,listMovie,this.cContext)
 
         rvTvSeries.layoutManager = GridLayoutManager(this.cContext, 1, GridLayoutManager.HORIZONTAL, false)
-        loadMovie(rvTvSeries,listMovie,this.cContext)
         loadTvSeries(rvTvSeries,listTvSeries,this.cContext)
 
 
@@ -130,14 +124,7 @@ class HomeFragment : Fragment() {
         private val ARG_PARAM1 = "param1"
         private val ARG_PARAM2 = "param2"
 
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
+
         // TODO: Rename and change types and number of parameters
         fun newInstance(param1: String, param2: String): HomeFragment {
             val fragment = HomeFragment()
@@ -152,42 +139,13 @@ class HomeFragment : Fragment() {
 
     fun loadMovie(reciclerView: RecyclerView,ListMovie: ArrayList<mMovie>,context: Context) {
 
-        //https://api.themoviedb.org/3/movie/
-        // Create a cache object
-        val cacheSize = 10 * 1024 * 1024 // 10 MB
-        val httpCacheDirectory = File(context.cacheDir, "http-cache")
-        val cache = Cache(httpCacheDirectory, cacheSize.toLong())
 
-        // create a network cache interceptor, setting the max age to 10 minute
-        val networkCacheInterceptor = Interceptor { chain ->
-            val response = chain.proceed(chain.request())
-
-            var cacheControl = CacheControl.Builder()
-                    .maxAge(10, TimeUnit.MINUTES)
-                    .build()
-
-            response.newBuilder()
-                    .header("Cache-Control", cacheControl.toString())
-                    .build()
-        }
-
-        // Create the logging interceptor
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-
-
-        // Create the httpClient, configure it
-        // with cache, network cache interceptor and logging interceptor
-        val httpClient = OkHttpClient.Builder()
-                .cache(cache)
-                .addNetworkInterceptor(networkCacheInterceptor)
-                .addInterceptor(loggingInterceptor)
-                .build()
+        var httpClient = CacheSetting.getSetting(context)
 
 
         //https://api.github.com/
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/3/movie/")
+                .baseUrl("${Api.BaseApi}")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(httpClient)
@@ -195,7 +153,7 @@ class HomeFragment : Fragment() {
 
         // Build the gitHubApi with Retrofit and do the network request
         val apiService = retrofit.create(ApiService::class.java)
-        apiService.getAllPosts()
+        apiService.getAllPosts("movie","popular",Api.api_key,Api.language,Api.page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableObserver<Response<mMoviesCategory>>() {
@@ -219,7 +177,7 @@ class HomeFragment : Fragment() {
                             try{
                                 Log.i(TAG,""+movies.get(i).backdrop_path)
                                 val p = movies.get(i)
-                                ListMovie.add(mMovie(p.vote_count,p.id,p.video,p.vote_average,p.title,p.popularity,p.poster_path,p.original_language,p.original_title,p.genre_ids,p.backdrop_path,p.adult,p.overview, Date()))
+                                ListMovie.add(mMovie(p.vote_count,p.id,p.video,p.vote_average,p.title,p.popularity,p.poster_path,p.original_language,p.original_title,p.genre_ids,p.backdrop_path,p.adult,p.overview,p.release_date))
                             }
                             catch (e: JSONException) {
                                 e.printStackTrace();
@@ -243,42 +201,11 @@ class HomeFragment : Fragment() {
 
     fun loadTvSeries(reciclerView: RecyclerView,ListMovie: ArrayList<mTvSeries>,context: Context) {
 
-        //https://api.themoviedb.org/3/movie/
-        // Create a cache object
-        val cacheSize = 10 * 1024 * 1024 // 10 MB
-        val httpCacheDirectory = File(context.cacheDir, "http-cache")
-        val cache = Cache(httpCacheDirectory, cacheSize.toLong())
-
-        // create a network cache interceptor, setting the max age to 10 minute
-        val networkCacheInterceptor = Interceptor { chain ->
-            val response = chain.proceed(chain.request())
-
-            var cacheControl = CacheControl.Builder()
-                    .maxAge(10, TimeUnit.MINUTES)
-                    .build()
-
-            response.newBuilder()
-                    .header("Cache-Control", cacheControl.toString())
-                    .build()
-        }
-
-        // Create the logging interceptor
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-
-
-        // Create the httpClient, configure it
-        // with cache, network cache interceptor and logging interceptor
-        val httpClient = OkHttpClient.Builder()
-                .cache(cache)
-                .addNetworkInterceptor(networkCacheInterceptor)
-                .addInterceptor(loggingInterceptor)
-                .build()
-
+        var httpClient = CacheSetting.getSetting(context)
 
         //https://api.github.com/
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/3/tv/")
+                .baseUrl(Api.BaseApi)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(httpClient)
@@ -286,7 +213,7 @@ class HomeFragment : Fragment() {
 
         // Build the gitHubApi with Retrofit and do the network request
         val apiService = retrofit.create(ApiService::class.java)
-        apiService.getAllTvSeries()
+        apiService.getAllTvSeries("tv","popular",Api.api_key,Api.language,Api.page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableObserver<Response<mTvSeriesCategory>>() {
@@ -330,6 +257,8 @@ class HomeFragment : Fragment() {
                     }
                 })
     }
+
+
 
 
 

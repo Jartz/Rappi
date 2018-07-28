@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rappi</string>
+    <string name="app_name">Rappi Mv</string>
     <string name="home">Home</string>
     <string name="movie">Movie</string>
     <string name="tv_series">T.V</string>
@@ -9,4 +9,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="movieTitle">Movie</string>
     <string name="TvSeriesTitle">Tv Show</string>
+    <string name="categorytop">Top</string>
+    <string name="categorypopular">Popular</string>
+    <string name="categoryupcoming">Upcoming</string>
+    <string name="searchinfo">Realiza una busqueda Arriba!!!</string>
 </resources>
