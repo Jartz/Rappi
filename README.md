@@ -55,9 +55,13 @@ El sistema cuenta con 4 vistas principales:
 ## Clases/Negocio
 <br>
 <li><strong>ApiService</strong> :Interfaz Gestiona la consulta a la RestApi por paremitrazacion de Retrofit y serializa en los modelos.</li>
-<li><strong>LoadMediaType</strong> :Funcion que solicita el consumo de api. de acuerdo a los parametros de entradas tales como (typeApi:String,reciclerView: RecyclerView,context: Context)</li>
-<li><strong>SearchMultiple</strong> : Funcion solicita el consumo de api de search multpiple es activadad por addTextChangedListener del EditText.Recibe como parametros(String,Reciclerview,context).</li>
-<li><strong>Adapter(Movie,TvSeties,Search)</strong> : Adaptadores que Gestiona la visualizaicion de datos en reciclerview.</li>
+<li><strong>Cartelera</strong> :clase que tiene como objectivo la manipulacion de datos obtenidos por medio de las funciones
+<li>setListFilter</li>
+<li>setListByMediType</li>
+</li>
+
+<li><strong>setListFilter</strong> : constructor de la clase Cartelera recibe como parametro (query: String, reciclerView: RecyclerView, context: Context, progress: ProgressBar) que tiene como objectivo enviar a reciclerview la solicitud filtrada.por el string obtenido en query</li>
+<li><strong>setListByMediType</strong> :  constructor de la clase Cartelera que recibe como parametros (typeApi:String,categoryApi: String,reciclerView: RecyclerView,context: Context,progress:ProgressBa). con el fin de visualizar en reciclerview</li>
 
 ## Capa Persistencia
 <br>
