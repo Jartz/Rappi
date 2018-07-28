@@ -17,6 +17,7 @@ Plataforma
 <li>Retrofit:2.3.0'</li>
 <li>okhttp:3.11.0</li>
 <li>glide:4.2.0</li>
+<li>rxandroid:2.0.1</li>
 <br>
 
 Api
